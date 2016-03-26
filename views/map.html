@@ -11,8 +11,14 @@
 
     <style>
       #map {
-        height: 90%;
+        height: 100%;
         width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      body {
+        background: url("/assets/china-pattern-design.jpg") repeat-x;
       }
     </style>
 </head>
@@ -24,15 +30,23 @@
 
 <script>
 
-  var photo_list =
+  // Define list of photos to map
+
+  var photo_list = [
+    {filename: "R0010012.JPG", lat: 39.9457, long: 116.4112},
+    {filename: "R0010024.JPG", lat: 39.9455, long: 116.4083},
+    {filename: "R0010070.JPG", lat: 40.6766, long: 117.2415}
+  ];
+
 
   // Initialize Leaflet map
 
   var map = new L.map('map', {
-    center: new L.LatLng(44.9778, -93.2650),
+    center: new L.LatLng(39.9457, 116.4112),
     zoom: 10,
     maxZoom: 17
   });
+
 
   // Baselayer
 
@@ -41,19 +55,35 @@
   baselayer.addTo(map);
 
 
+  // Iterate over photos and add them to the "photoLayer" layer group, then add to map
+
+  var photoLayer = new L.layerGroup();
+
+  photo_list.forEach(function(photo) {
+    var thumbnailIcon = L.icon({
+        iconUrl: '/photos/' + photo.filename,
+        iconSize:     [38, 95], // size of the icon
+    });
+
+    var marker = L.circle([photo.lat, photo.long], 500, {
+      //color: 'red',
+      //fillColor: '#f03',
+      //fillOpacity: 0.5,
+      icon: thumbnailIcon
+    }).addEventListener("click", showPhotosphere);
+
+    marker.filename = photo.filename;
+    marker.addTo(photoLayer);
+  });
+
+  photoLayer.addTo(map);
+
   // Hide and show photosphere
 
   function showPhotosphere(e) {
-    location.assign('/photosphere/R0010012.jpg');
+    console.log(e);
+    location.assign('/photosphere/' + e.target.filename);
   }
-
-  var marker = L.circle([44.9778, -93.2650], 500, {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5
-  }).addEventListener("click", showPhotosphere);
-
-  marker.addTo(map);
 
 </script>
 

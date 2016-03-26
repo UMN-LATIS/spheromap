@@ -1,7 +1,4 @@
 require('aframe');
 require('leaflet');
-require('fs');
 
-var process_photos = require('./process_photos');
-
-console.log(process_photos);
+var photo_tour = require('../js/photo_tour');
