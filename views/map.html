@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <script type="text/javascript" src="js/scripts.min.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+
+    <style>
+      #map {
+        height: 90%;
+        width: 90%;
+      }
+    </style>
+</head>
+
+<body>
+
+<!-- Leaflet photo: https://github.com/turban/Leaflet.Photo -->
+<div id="map"></div>
+
+<script>
+
+  var photo_list =
+
+  // Initialize Leaflet map
+
+  var map = new L.map('map', {
+    center: new L.LatLng(44.9778, -93.2650),
+    zoom: 10,
+    maxZoom: 17
+  });
+
+  // Baselayer
+
+  var baselayer = new L.StamenTileLayer("toner");
+
+  baselayer.addTo(map);
+
+
+  // Hide and show photosphere
+
+  function showPhotosphere(e) {
+    location.assign('/photosphere/R0010012.jpg');
+  }
+
+  var marker = L.circle([44.9778, -93.2650], 500, {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5
+  }).addEventListener("click", showPhotosphere);
+
+  marker.addTo(map);
+
+</script>
+
+
+</body>
+</html>

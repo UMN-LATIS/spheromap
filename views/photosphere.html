@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>{{Title}}</title>
+</head>
+
+<body>
+<script type="text/javascript" src={{js}} charset="utf-8"></script>
+
+
+
+<a-scene id="photosphere">
+
+  <a-assets>
+    <img id="china_texture" src="/assets/china-pattern-design.jpg">
+  </a-assets>
+
+  <a-camera position="0 1.8 4">
+    <a-cursor visible="true" scale="2" color="#4CC3D9" offset="2" maxdistance="100" opacity="0.5"></a-cursor>
+  </a-camera>
+
+  <a-sky src={{src}}></a-sky>
+
+  <a-box id="portkey" position="0 -2 0" width="0.5" height="0.5" depth="0.5" color="gray" src="#china_texture"></a-box>
+
+</a-scene>
+
+<script>
+  function hidePhotosphere(e) {
+    location.assign('/');
+  }
+
+  document.querySelector("#portkey").addEventListener("click", hidePhotosphere);
+</script>
+
+</body>
+</html>
