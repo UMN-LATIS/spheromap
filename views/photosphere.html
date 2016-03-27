@@ -25,11 +25,26 @@
 </a-scene>
 
 <script>
-  function hidePhotosphere(e) {
+  var vr_mode = false;
+
+  function exitPhotosphere(e) {
     location.assign('/');
   }
 
-  document.querySelector("#portkey").addEventListener("click", hidePhotosphere);
+  /*
+  function toggleVR(e) {
+    if (vr_mode) {
+      console.log("Exiting VR mode!");
+      document.querySelector("#photosphere").exitVR();
+      vr_mode = false;
+    } else {
+      console.log("Entering VR mode!");
+      document.querySelector("#photosphere").enterVR();
+    }
+  };
+  */
+
+  document.querySelector("#portkey").addEventListener("click", exitPhotosphere);
 </script>
 
 </body>

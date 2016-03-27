@@ -30,12 +30,57 @@
 
 <script>
 
-  // Define list of photos to map
+  // Define list of photos, comprised of multiple "tours"
 
   var photo_list = [
-    {filename: "R0010012.JPG", lat: 39.9457, long: 116.4112},
-    {filename: "R0010024.JPG", lat: 39.9455, long: 116.4083},
-    {filename: "R0010070.JPG", lat: 40.6766, long: 117.2415}
+    {
+      tour_id: "llama",
+      tour_name: "Llama & Confucius Temples",
+      color: "yellow",
+      photos: [
+        {filename: "R0010012.JPG", lat: 39.9457, long: 116.4112},
+        {filename: "R0010024.JPG", lat: 39.9455, long: 116.4083},
+        {filename: "R0010029.JPG", lat: 39.9445, long: 116.4082}
+      ]
+    },
+    {
+      tour_id: "wanderings",
+      tour_name: "Wanderings",
+      color: "black",
+      photos: [
+        {filename: "R0010031.JPG", lat: 39.9472, long: 116.4096},
+        {filename: "R0010033.JPG", lat: 39.9077, long: 116.4241}
+      ]
+    },
+    {
+      tour_id: "forbidden",
+      tour_name: "Forbidden City",
+      color: "red",
+      photos: [
+        {filename: "R0010040.JPG", lat: 39.9066, long: 116.3917},
+        {filename: "R0010042.JPG", lat: 39.9083, long: 116.3912},
+        {filename: "R0010044.JPG", lat: 39.9133, long: 116.392},
+        {filename: "R0010046.JPG", lat: 39.9141, long: 116.391},
+        {filename: "R0010048.JPG", lat: 39.9144, long: 116.391},
+        {filename: "R0010050.JPG", lat: 39.9162, long: 116.3904},
+        {filename: "R0010052.JPG", lat: 39.9177, long: 116.3874},
+        {filename: "R0010055.JPG", lat: 39.9201, long: 116.39},
+        {filename: "R0010058.JPG", lat: 39.9234, long: 116.3905}
+      ]
+    },
+    {
+      tour_id: "wall",
+      tour_name: "Great Wall",
+      color: "green",
+      photos: [
+        {filename: "R0010060.JPG", lat: 40.6766, long: 117.2328},
+        {filename: "R0010062.JPG", lat: 40.6764, long: 117.2332},
+        {filename: "R0010065.JPG", lat: 40.6762, long: 117.2345},
+        {filename: "R0010068.JPG", lat: 40.6753, long: 117.2364},
+        {filename: "R0010070.JPG", lat: 40.6766, long: 117.2415}
+      ]
+    }
+    // Stopped at 77
   ];
 
 
@@ -57,26 +102,26 @@
 
   // Iterate over photos and add them to the "photoLayer" layer group, then add to map
 
-  var photoLayer = new L.layerGroup();
+  photo_list.forEach(function(tour) {
+    console.log("Loading tour: " + tour.tour_name);
 
-  photo_list.forEach(function(photo) {
-    var thumbnailIcon = L.icon({
-        iconUrl: '/photos/' + photo.filename,
-        iconSize:     [38, 95], // size of the icon
+    var photoLayer = new L.layerGroup();
+
+    tour.photos.forEach(function(photo){
+      var marker = L.circle([photo.lat, photo.long], 500, {
+        color: tour.color,
+        fillColor: tour.color,
+        fillOpacity: 0.5
+      }).addEventListener("click", showPhotosphere);
+
+      marker.filename = photo.filename;
+      marker.addTo(photoLayer);
     });
 
-    var marker = L.circle([photo.lat, photo.long], 500, {
-      //color: 'red',
-      //fillColor: '#f03',
-      //fillOpacity: 0.5,
-      icon: thumbnailIcon
-    }).addEventListener("click", showPhotosphere);
+    photoLayer.addTo(map);
 
-    marker.filename = photo.filename;
-    marker.addTo(photoLayer);
   });
 
-  photoLayer.addTo(map);
 
   // Hide and show photosphere
 
