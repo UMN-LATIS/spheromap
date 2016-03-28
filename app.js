@@ -15,6 +15,8 @@ app.set('views', __dirname + '/views');
 app.use('/photos', express.static(__dirname + '/photos'));
 app.use('/assets', express.static(__dirname + '/assets'));
 app.use('/js', express.static(__dirname + '/js'));
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
+
 
 // Express Router info: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
 

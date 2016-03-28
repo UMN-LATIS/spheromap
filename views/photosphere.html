@@ -1,13 +1,10 @@
 <html>
 <head>
-  <title>{{Title}}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{Title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <script type="text/javascript" src="/js/bundle.js" charset="utf-8"></script>
-
-  <!-- <script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script> -->
-  <!-- <script type="text/javascript" src="/node_modules/aframe/dist/aframe.min.js"></script> -->
-
+    <!-- <script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script> -->
+    <script type="text/javascript" src="/node_modules/aframe/dist/aframe.js"></script>
 </head>
 
 <body>
@@ -29,13 +26,13 @@
 </a-scene>
 
 <script>
-  var vr_mode = false;
 
   function exitPhotosphere(e) {
     location.assign('/');
   }
 
   document.querySelector("#portkey").addEventListener("click", exitPhotosphere);
+
 </script>
 
 </body>
