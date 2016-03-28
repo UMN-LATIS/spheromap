@@ -19,11 +19,13 @@ app.use('/js', express.static(__dirname + '/js'));
 // Express Router info: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
 
 app.get('/', function (req, res) {
-  res.render('map');
+  var photo_tour_data = require("./photo_tour_data.json");
+  var photo_tour_data = JSON.stringify(photo_tour_data);
+  res.render('map', { photo_tour_json: photo_tour_data });
 });
 
 app.get('/photosphere/:image', function (req, res) {
-  res.render('photosphere', { js: '/js/scripts.min.js', src: '/photos/' + req.params.image, portkey_texture: '/assets/china-pattern-design.jpg' });
+  res.render('photosphere', { src: '/photos/' + req.params.image });
 });
 
 app.listen(3000, function () {

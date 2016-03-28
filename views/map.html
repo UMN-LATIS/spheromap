@@ -3,35 +3,61 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script type="text/javascript" src="js/scripts.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/bundle.js" charset="utf-8"></script>
+
+    <!-- <script type="text/javascript" src="/node_modules/leaflet/dist/leaflet.js"></script> -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
-
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 
     <style>
       #map {
         height: 100%;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
+        width: 80%;
+      }
+
+      #guide {
+        float: right;
+        width: 20%;
+        height: 100%;
+        background: url("/assets/china-pattern-design.jpg") repeat-x;
+      }
+
+      #info {
+        padding: 5%;
+      }
+
+      #tour_list {
+        font-weight: bold;
       }
 
       body {
-        background: url("/assets/china-pattern-design.jpg") repeat-x;
+        font-family: Helvetica, sans-serif;
       }
     </style>
 </head>
 
 <body>
 
-<!-- Leaflet photo: https://github.com/turban/Leaflet.Photo -->
+<div id="guide">
+
+  <div id="info">
+    <h1>China 2016</h1>
+    <div id="tour_list"></div>
+  </div>
+
+</div>
+
 <div id="map"></div>
 
 <script>
 
-  // Define list of photos, comprised of multiple "tours"
+  var photo_list = {{{photo_tour_json}}};
 
+  console.log(photo_list);
+
+  // Define list of photos, comprised of multiple "tours"
+  /*
   var photo_list = [
     {
       tour_id: "llama",
@@ -82,7 +108,7 @@
     }
     // Stopped at 77
   ];
-
+  */
 
   // Initialize Leaflet map
 
@@ -100,15 +126,25 @@
   baselayer.addTo(map);
 
 
-  // Iterate over photos and add them to the "photoLayer" layer group, then add to map
+  // Layers Control
+
+  var baseMaps = {
+    "Stamen Toner": baselayer
+  };
+
+  var overlayMaps = {};
+
+
+  // Iterate over each tour, adding photos to a separate "photoLayer" layer group
+  // then add to map
 
   photo_list.forEach(function(tour) {
     console.log("Loading tour: " + tour.tour_name);
 
-    var photoLayer = new L.layerGroup();
+    var photoLayer = new L.featureGroup();
 
     tour.photos.forEach(function(photo){
-      var marker = L.circle([photo.lat, photo.long], 500, {
+      var marker = L.circle([photo.lat, photo.long], 50, {
         color: tour.color,
         fillColor: tour.color,
         fillOpacity: 0.5
@@ -118,9 +154,31 @@
       marker.addTo(photoLayer);
     });
 
+    overlayMaps[tour.tour_id] = photoLayer;
+    console.log(overlayMaps);
+
     photoLayer.addTo(map);
 
+    // Zoom to a specific tour
+
+    function zoomToTour(e) {
+      console.log(e);
+      map.fitBounds(photoLayer.getBounds());
+    }
+
+    // Add tour to tour list in the map guide
+    var tour_list_item = document.createElement('h2');
+    tour_list_item.appendChild(document.createTextNode(tour.tour_name));
+    tour_list_item.style.color = tour.color;
+    tour_list_item.addEventListener("click", zoomToTour);
+
+    document.getElementById('tour_list').appendChild(tour_list_item);
   });
+
+
+  // Layer Controls
+
+  L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 
   // Hide and show photosphere
@@ -129,6 +187,7 @@
     console.log(e);
     location.assign('/photosphere/' + e.target.filename);
   }
+
 
 </script>
 

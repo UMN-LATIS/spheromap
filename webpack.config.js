@@ -7,7 +7,12 @@ module.exports = {
   entry: "./js/scripts.js",
   output: {
     path: __dirname + "/js",
-    filename: "scripts.min.js"
+    filename: "bundle.js"
+  },
+  module: {
+    loaders: [
+      { test: /\.css$/, loader: "style-loader!css-loader" }
+    ]
   },
   watch: true,
   plugins: debug ? [] : [

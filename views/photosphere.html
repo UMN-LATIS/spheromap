@@ -1,12 +1,16 @@
 <html>
 <head>
   <title>{{Title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <script type="text/javascript" src="/js/bundle.js" charset="utf-8"></script>
+
+  <!-- <script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script> -->
+  <!-- <script type="text/javascript" src="/node_modules/aframe/dist/aframe.min.js"></script> -->
+
 </head>
 
 <body>
-<script type="text/javascript" src={{js}} charset="utf-8"></script>
-
-
 
 <a-scene id="photosphere">
 
@@ -30,19 +34,6 @@
   function exitPhotosphere(e) {
     location.assign('/');
   }
-
-  /*
-  function toggleVR(e) {
-    if (vr_mode) {
-      console.log("Exiting VR mode!");
-      document.querySelector("#photosphere").exitVR();
-      vr_mode = false;
-    } else {
-      console.log("Entering VR mode!");
-      document.querySelector("#photosphere").enterVR();
-    }
-  };
-  */
 
   document.querySelector("#portkey").addEventListener("click", exitPhotosphere);
 </script>
