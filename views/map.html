@@ -16,6 +16,7 @@
 
       #guide {
         float: right;
+        text-align: center;
         width: 25%;
         height: 100%;
         background: url("/assets/china-pattern-design.jpg") repeat-x;
@@ -27,12 +28,18 @@
         overflow: scroll;
       }
 
-      #tour_list {
-        font-weight: bold;
+      .page_title {
+        background-color: rgba(255, 255, 255, 0.75);
+      }
+
+      .tour_list_item {
+        background-color: rgba(255, 255, 255, 0.75);
+        font-family: "Arial Narrow", sans-serif;
+        border-radius: 5px;
       }
 
       body {
-        font-family: Helvetica, sans-serif;
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
       }
     </style>
 </head>
@@ -42,7 +49,7 @@
 <div id="guide">
 
   <div id="info">
-    <h1>China 2016</h1>
+    <h1 class="page_title">China 2016</h1>
     <div id="tour_list"></div>
   </div>
 
@@ -57,7 +64,7 @@
   // Initialize Leaflet map
 
   var map = new L.map('map', {
-    center: new L.LatLng(39.9457, 116.4112),
+    center: new L.LatLng({{lat}}, {{long}}),
     zoom: 10,
     maxZoom: 17
   });
@@ -111,12 +118,16 @@
     }
 
     // Add tour to tour list in the map guide
-    var tour_list_item = document.createElement('h2');
-    tour_list_item.appendChild(document.createTextNode(tour.tour_name));
-    tour_list_item.style.color = tour.color;
-    tour_list_item.addEventListener("click", zoomToTour);
+    var tour_list_div = document.createElement('div');
+    var tour_list_text = document.createElement('h2');
+    tour_list_text.appendChild(document.createTextNode(tour.tour_name));
+    tour_list_div.appendChild(tour_list_text);
+    tour_list_div.className = "tour_list_item";
+    tour_list_div.style.color = tour.color;
 
-    document.getElementById('tour_list').appendChild(tour_list_item);
+    tour_list_div.addEventListener("click", zoomToTour);
+
+    document.getElementById('tour_list').appendChild(tour_list_div);
   });
 
 
