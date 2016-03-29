@@ -59,7 +59,18 @@
 
 <script>
 
+  // Hide and show photosphere
+
+  function showPhotosphere(e) {
+    console.log(e);
+    location.assign('/photosphere/' + e.target.filename);
+  }
+
+
+  // JSON data
+
   var photo_list = {{{photo_tour_json}}};
+
 
   // Initialize Leaflet map
 
@@ -136,16 +147,9 @@
   L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 
-  // Hide and show photosphere
-
-  function showPhotosphere(e) {
-    console.log(e);
-    location.assign('/photosphere/' + e.target.filename);
-  }
-
-
 </script>
 
+<script type="text/javascript" src="/js/bundle.js"></script>
 
 </body>
 </html>

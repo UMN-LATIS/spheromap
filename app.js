@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var _ = require('lodash');
 var consolidate = require('consolidate'); // 'consolidate' supports multiple templating engines; we'll use mustache below (just need to be sure to `npm install` it first!)
 
 var app = express();
@@ -29,6 +30,22 @@ app.locals.photo_tours = require("./js/photo_tour_data.json");
 // Express Router info: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
 
 app.get('/', function (req, res) {
+  var data = JSON.stringify(req.app.locals.photo_tours);
+  res.render('map', { photo_tour_json: data, lat: 39.9457, long: 116.4112 });
+});
+
+/*
+app.get('/tour/:lat\::long', function (req, res) {
+  var lat = parseFloat(req.params.lat);
+  var long = parseFloat(req.params.long);
+  var data = JSON.stringify(req.app.locals.photo_tours);
+  res.render('map', { photo_tour_json: data, lat: lat, long: long });
+});
+*/
+
+app.get('/:tour', function (req, res) {
+  var tour_data = _.find(req.app.locals.photo_tours, { "tour_id": req.params.tour });
+  console.log(tour_data);
   var data = JSON.stringify(req.app.locals.photo_tours);
   res.render('map', { photo_tour_json: data, lat: 39.9457, long: 116.4112 });
 });
