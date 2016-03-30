@@ -3,9 +3,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <!-- Leaflet.js -->
     <script type="text/javascript" src="/node_modules/leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="/node_modules/leaflet/dist/leaflet.css" />
 
+    <!-- Stamen maps for baselayers -->
     <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
 
     <style>
@@ -19,23 +21,31 @@
         text-align: center;
         width: 25%;
         height: 100%;
-        background: url("/assets/china-pattern-design.jpg") repeat-x;
+        background-color: {{ backgroundColor }};
       }
 
-      #info {
+      .infobox {
         padding: 5%;
         height: 100%;
         overflow: scroll;
       }
 
-      .page_title {
-        background-color: rgba(255, 255, 255, 0.75);
+      .page_info {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5%;
+      }
+
+      #tour_list {
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .tour_list_item {
         background-color: rgba(255, 255, 255, 0.75);
         font-family: "Arial Narrow", sans-serif;
         border-radius: 5px;
+        cursor: pointer; cursor: hand;
       }
 
       body {
@@ -48,9 +58,15 @@
 
 <div id="guide">
 
-  <div id="info">
-    <h1 class="page_title">China 2016</h1>
+  <div class="infobox">
+
+    <div class="page_info">
+      <h1>{{ title }}</h1>
+      <p>{{subtitle}}</p>
+    </div>
+
     <div id="tour_list"></div>
+
   </div>
 
 </div>
@@ -59,20 +75,14 @@
 
 <script>
 
-  // Hide and show photosphere
+  // PHOTOSPHERE - function to redirect to photosphere view
 
   function showPhotosphere(e) {
-    console.log(e);
     location.assign('/photosphere/' + e.target.filename);
   }
 
 
-  // JSON data
-
-  var photo_list = {{{photo_tour_json}}};
-
-
-  // Initialize Leaflet map
+  // INITIALIZE LEAFLET MAP - use default lat/long and zoom to start
 
   var map = new L.map('map', {
     center: new L.LatLng({{lat}}, {{long}}),
@@ -81,75 +91,90 @@
   });
 
 
-  // Baselayer
+  // BASE LAYER
 
   var baselayer = new L.StamenTileLayer("toner");
 
   baselayer.addTo(map);
 
 
-  // Layers Control
+  // TOUR LAYERS - parse from JSON data
+
+  function parseLayers(jsonData) {
+
+    var layers = [];
+
+    jsonData.forEach(function(tour) {
+      console.log("Loading tour: " + tour.tour_name);
+
+      var photoLayer = new L.featureGroup();
+
+      tour.photos.forEach(function(photo){
+        var marker = L.circle([photo.lat, photo.long], 50, {
+          color: tour.color,
+          fillColor: tour.color,
+          fillOpacity: 0.5
+        }).addEventListener("click", showPhotosphere);
+
+        marker.filename = photo.filename;
+        marker.addTo(photoLayer);
+      });
+
+      // Add tour layer to map
+      photoLayer.addTo(map);
+
+      // Add tour name to tour list in the map guide
+      var tour_list_div = document.createElement('div');
+      var tour_list_text = document.createElement('h2');
+      tour_list_text.appendChild(document.createTextNode(tour.tour_name));
+      tour_list_div.appendChild(tour_list_text);
+      tour_list_div.className = "tour_list_item";
+      tour_list_div.style.color = tour.color;
+
+      // Add zoom function to each div
+      function zoomMap(e) {
+        console.log(e);
+        map.fitBounds(photoLayer.getBounds());
+      }
+
+      tour_list_div.addEventListener("click", zoomMap);
+
+      document.getElementById('tour_list').appendChild(tour_list_div);
+
+      // Add tour layer to layer hash that will get returned
+      layers[tour.tour_id] = photoLayer;
+    });
+
+    return layers;
+  }
+
+  var tourLayers = parseLayers({{{ photo_tour_json }}});
+  console.log(tourLayers);
+
+
+  // ZOOM MAP - if a tour_id is present in the URL request, set map bounds based on that tour layer
+
+  function zoomMap(tour_id) {
+    console.log("Zooming!");
+    map.fitBounds(tourLayers[tour_id].getBounds());
+  }
+
+  {{#if tour_id}}
+    console.log("{{tour_id}}");
+    zoomMap("{{ tour_id }}");
+  {{/if}}
+
+
+  // LAYER CONTROLS - add to map so users can toggle layers on and off
 
   var baseMaps = {
     "Stamen Toner": baselayer
   };
 
-  var overlayMaps = {};
-
-
-  // Iterate over each tour, adding photos to a separate "photoLayer" layer group
-  // then add to map
-
-  photo_list.forEach(function(tour) {
-    console.log("Loading tour: " + tour.tour_name);
-
-    var photoLayer = new L.featureGroup();
-
-    tour.photos.forEach(function(photo){
-      var marker = L.circle([photo.lat, photo.long], 50, {
-        color: tour.color,
-        fillColor: tour.color,
-        fillOpacity: 0.5
-      }).addEventListener("click", showPhotosphere);
-
-      marker.filename = photo.filename;
-      marker.addTo(photoLayer);
-    });
-
-    overlayMaps[tour.tour_id] = photoLayer;
-    console.log(overlayMaps);
-
-    photoLayer.addTo(map);
-
-    // Zoom to a specific tour
-
-    function zoomToTour(e) {
-      console.log(e);
-      map.fitBounds(photoLayer.getBounds());
-    }
-
-    // Add tour to tour list in the map guide
-    var tour_list_div = document.createElement('div');
-    var tour_list_text = document.createElement('h2');
-    tour_list_text.appendChild(document.createTextNode(tour.tour_name));
-    tour_list_div.appendChild(tour_list_text);
-    tour_list_div.className = "tour_list_item";
-    tour_list_div.style.color = tour.color;
-
-    tour_list_div.addEventListener("click", zoomToTour);
-
-    document.getElementById('tour_list').appendChild(tour_list_div);
-  });
-
-
-  // Layer Controls
-
-  L.control.layers(baseMaps, overlayMaps).addTo(map);
+  L.control.layers(baseMaps, tourLayers).addTo(map);
 
 
 </script>
-
-<script type="text/javascript" src="/js/bundle.js"></script>
 
 </body>
 </html>

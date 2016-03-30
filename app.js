@@ -1,16 +1,16 @@
 var express = require('express');
 var path = require('path');
 var _ = require('lodash');
-var consolidate = require('consolidate'); // 'consolidate' supports multiple templating engines; we'll use mustache below (just need to be sure to `npm install` it first!)
+var consolidate = require('consolidate'); // 'consolidate' supports multiple templating engines; we'll use handlebars below (just need to be sure to `npm install` it first!)
 
 var app = express();
 
 
-// App settings
+// APP SETTINGS
 
 app.set('title', 'China 2016');
 
-app.engine('html', consolidate.mustache);
+app.engine('html', consolidate.handlebars);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
@@ -20,34 +20,41 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 
-// app.locals
+// CONFIG - to load user-defined settings from config.js
+
+var config = require('./config.json');
+
+
+// JSON DATA for PHOTO TOURS - load into app.locals to pass as JSON into the views
 
 app.locals.photo_tours = require("./js/photo_tour_data.json");
-//var photo_tours = require("./js/parse_tours.js");
-//console.log(photo_tours);
 
 
-// Express Router info: https://scotch.io/tutorials/learn-to-use-the-new-router-in-expressjs-4
+// ROUTES
 
 app.get('/', function (req, res) {
   var data = JSON.stringify(req.app.locals.photo_tours);
-  res.render('map', { photo_tour_json: data, lat: 39.9457, long: 116.4112 });
+  res.render('map', {
+    photo_tour_json: data,
+    lat: config.defaultLat,
+    long: config.defaultLong,
+    title: config.title,
+    subtitle: config.subtitle,
+    backgroundColor: config.backgroundColor
+  });
 });
-
-/*
-app.get('/tour/:lat\::long', function (req, res) {
-  var lat = parseFloat(req.params.lat);
-  var long = parseFloat(req.params.long);
-  var data = JSON.stringify(req.app.locals.photo_tours);
-  res.render('map', { photo_tour_json: data, lat: lat, long: long });
-});
-*/
 
 app.get('/:tour', function (req, res) {
-  var tour_data = _.find(req.app.locals.photo_tours, { "tour_id": req.params.tour });
-  console.log(tour_data);
   var data = JSON.stringify(req.app.locals.photo_tours);
-  res.render('map', { photo_tour_json: data, lat: 39.9457, long: 116.4112 });
+  res.render('map', {
+    photo_tour_json: data,
+    lat: config.defaultLat,
+    long: config.defaultLong,
+    title: config.title,
+    subtitle: config.subtitle,
+    backgroundColor: config.backgroundColor,
+    tour_id: req.params.tour
+  });
 });
 
 app.get('/photosphere/:image', function (req, res) {

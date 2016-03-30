@@ -15,9 +15,9 @@
     "consolidate": "^0.14.0",
     "express": "^4.13.4",
     "fs": "0.0.2",
+    "handlebars": "^4.0.5",
     "leaflet": "^0.7.7",
     "lodash": "^4.6.1",
-    "mustache": "^2.2.1",
     "webpack": "^1.12.14"
   }
 }
