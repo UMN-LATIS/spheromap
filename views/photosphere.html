@@ -28,7 +28,7 @@
 <script>
 
   function exitPhotosphere(e) {
-    location.assign('/');
+    location.assign('/' + "{{tour_id}}");
   }
 
   document.querySelector("#portkey").addEventListener("click", exitPhotosphere);

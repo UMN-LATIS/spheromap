@@ -61,7 +61,7 @@
   <div class="infobox">
 
     <div class="page_info">
-      <h1>{{ title }}</h1>
+      <h1>{{title}}</h1>
       <p>{{subtitle}}</p>
     </div>
 
@@ -78,7 +78,7 @@
   // PHOTOSPHERE - function to redirect to photosphere view
 
   function showPhotosphere(e) {
-    location.assign('/photosphere/' + e.target.filename);
+    location.assign('/' + e.target.tour_id + '/photosphere/' + e.target.filename);
   }
 
 
@@ -86,7 +86,7 @@
 
   var map = new L.map('map', {
     center: new L.LatLng({{lat}}, {{long}}),
-    zoom: 10,
+    zoom: {{zoom}},
     maxZoom: 17
   });
 
@@ -117,6 +117,7 @@
         }).addEventListener("click", showPhotosphere);
 
         marker.filename = photo.filename;
+        marker.tour_id = tour.tour_id;
         marker.addTo(photoLayer);
       });
 
@@ -148,7 +149,7 @@
     return layers;
   }
 
-  var tourLayers = parseLayers({{{ photo_tour_json }}});
+  var tourLayers = parseLayers({{{photo_tour_json}}});
   console.log(tourLayers);
 
 
@@ -161,7 +162,7 @@
 
   {{#if tour_id}}
     console.log("{{tour_id}}");
-    zoomMap("{{ tour_id }}");
+    zoomMap("{{tour_id}}");
   {{/if}}
 
 

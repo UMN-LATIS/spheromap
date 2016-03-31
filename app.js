@@ -38,6 +38,7 @@ app.get('/', function (req, res) {
     photo_tour_json: data,
     lat: config.defaultLat,
     long: config.defaultLong,
+    zoom: config.defaultZoomLevel,
     title: config.title,
     subtitle: config.subtitle,
     backgroundColor: config.backgroundColor
@@ -50,6 +51,7 @@ app.get('/:tour', function (req, res) {
     photo_tour_json: data,
     lat: config.defaultLat,
     long: config.defaultLong,
+    zoom: config.defaultZoomLevel,
     title: config.title,
     subtitle: config.subtitle,
     backgroundColor: config.backgroundColor,
@@ -57,8 +59,14 @@ app.get('/:tour', function (req, res) {
   });
 });
 
+/*
 app.get('/photosphere/:image', function (req, res) {
   res.render('photosphere', { src: '/photos/' + req.params.image });
+});
+*/
+
+app.get('/:tour/photosphere/:image', function (req, res) {
+  res.render('photosphere', { src: '/photos/' + req.params.image, tour_id: req.params.tour });
 });
 
 app.listen(3000, function () {
