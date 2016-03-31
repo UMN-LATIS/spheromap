@@ -28,7 +28,11 @@
 <script>
 
   function exitPhotosphere(e) {
-    location.assign('/' + "{{tour_id}}");
+    {{#if tour_id}}
+      location.assign('/' + "{{tour_id}}");
+    {{else}}
+      location.assign('/');
+    {{/if}}
   }
 
   document.querySelector("#portkey").addEventListener("click", exitPhotosphere);
