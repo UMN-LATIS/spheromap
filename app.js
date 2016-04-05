@@ -59,12 +59,24 @@ app.get('/:tour', function (req, res) {
   });
 });
 
-app.get('/photosphere/:image', function (req, res) {
-  res.render('photosphere', { src: '/photos/' + req.params.image });
+app.get('/:tour/photosphere/:image', function (req, res) {
+  // Filter with lodash to find image-specific data in the JSON,
+  // then get rotation from that to pass to the view
+  var tour_data = _.find(req.app.locals.photo_tours, { tour_id: req.params.tour });
+  var photo_data = _.find(tour_data, { photos: [{ filename: req.params.image }] });
+  console.log(tour_data.photos);
+  console.log(photo_data);
+  //console.log(image_data.rotation);
+
+  res.render('photosphere', {
+    src: '/photos/' + req.params.image,
+    tour_id: req.params.tour
+    //rotation: rotation
+  });
 });
 
-app.get('/:tour/photosphere/:image', function (req, res) {
-  res.render('photosphere', { src: '/photos/' + req.params.image, tour_id: req.params.tour });
+app.get('/photosphere/:image', function (req, res) {
+  res.render('photosphere', { src: '/photos/' + req.params.image });
 });
 
 app.listen(3000, function () {

@@ -32,7 +32,7 @@
       {"filename": "R0010046.JPG", "lat": 39.9141, "long": 116.391},
       {"filename": "R0010048.JPG", "lat": 39.9144, "long": 116.391},
       {"filename": "R0010050.JPG", "lat": 39.9162, "long": 116.3904},
-      {"filename": "R0010052.JPG", "lat": 39.9177, "long": 116.3874},
+      {"filename": "R0010052.JPG", "lat": 39.9177, "long": 116.3874, "rotation": 270},
       {"filename": "R0010055.JPG", "lat": 39.9201, "long": 116.39},
       {"filename": "R0010058.JPG", "lat": 39.9234, "long": 116.3905}
     ]
@@ -66,7 +66,6 @@
     "color": "orange",
     "photos": [
       {"filename": "R0010103.JPG", "lat": 31.2335, "long": 121.4718},
-      {"filename": "R0010105.JPG", "lat": 31.2289, "long": 121.4875},
       {"filename": "R0010121.JPG", "lat": 31.2405, "long": 121.4967},
       {"filename": "R0010125.JPG", "lat": 31.2485, "long": 121.4986},
       {"filename": "R0010130.JPG", "lat": 31.2408, "long": 121.4862},
@@ -78,14 +77,14 @@
     "tour_name": "Yuyuan Gardens, Shanghai",
     "color": "green",
     "photos": [
-      {"filename": "R0010105.JPG", "lat": 31.2289, "long": 121.4875},
-      {"filename": "R0010108.JPG", "lat": 31.229, "long": 121.4875},
-      {"filename": "R0010110.JPG", "lat": 31.2296, "long": 121.4877},
-      {"filename": "R0010112.JPG", "lat": 31.2295, "long": 121.4875},
-      {"filename": "R0010113.JPG", "lat": 31.2296, "long": 121.4876},
-      {"filename": "R0010116.JPG", "lat": 31.2294, "long": 121.4879},
-      {"filename": "R0010117.JPG", "lat": 31.2286, "long": 121.4879},
-      {"filename": "R0010119.JPG", "lat": 31.228, "long": 121.488}
+      {"filename": "R0010105.JPG", "lat": 31.2289, "long": 121.4875, "radius": 10},
+      {"filename": "R0010108.JPG", "lat": 31.229, "long": 121.4875, "radius": 10},
+      {"filename": "R0010110.JPG", "lat": 31.2296, "long": 121.4877, "radius": 10},
+      {"filename": "R0010112.JPG", "lat": 31.2295, "long": 121.4875, "radius": 10},
+      {"filename": "R0010113.JPG", "lat": 31.2296, "long": 121.4876, "radius": 10},
+      {"filename": "R0010116.JPG", "lat": 31.2294, "long": 121.4879, "radius": 10},
+      {"filename": "R0010117.JPG", "lat": 31.2286, "long": 121.4879, "radius": 10},
+      {"filename": "R0010119.JPG", "lat": 31.228, "long": 121.488, "radius": 10}
     ]
   }
 ]

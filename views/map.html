@@ -105,7 +105,7 @@
     var layers = [];
 
     jsonData.forEach(function(tour) {
-      console.log("Loading tour: " + tour.tour_name);
+      //console.log("Loading tour: " + tour.tour_name);
 
       var photoLayer = new L.featureGroup();
 
@@ -118,6 +118,7 @@
 
         marker.filename = photo.filename;
         marker.tour_id = tour.tour_id;
+        marker.rotation = photo.rotation;
         marker.addTo(photoLayer);
       });
 
@@ -134,8 +135,13 @@
 
       // Add zoom function to each div
       function zoomMap(e) {
-        console.log(e);
         map.fitBounds(photoLayer.getBounds());
+        //var currentState = history.state;
+        var currentState = {};
+        console.log("Current history state: ");
+        console.log(currentState);
+        var newURL = "/" + tour.tour_id;
+        history.pushState(null, "", newURL );
       }
 
       tour_list_div.addEventListener("click", zoomMap);
@@ -150,18 +156,15 @@
   }
 
   var tourLayers = parseLayers({{{photo_tour_json}}});
-  console.log(tourLayers);
 
 
   // ZOOM MAP - if a tour_id is present in the URL request, set map bounds based on that tour layer
 
   function zoomMap(tour_id) {
-    console.log("Zooming!");
     map.fitBounds(tourLayers[tour_id].getBounds());
   }
 
   {{#if tour_id}}
-    console.log("{{tour_id}}");
     zoomMap("{{tour_id}}");
   {{/if}}
 
