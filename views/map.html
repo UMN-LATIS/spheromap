@@ -1,5 +1,6 @@
 <html>
 <head>
+    <title>{{title}}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -13,13 +14,15 @@
     <style>
       #map {
         height: 100%;
-        width: 75%;
+        width: 65%;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       #guide {
         float: right;
         text-align: center;
-        width: 25%;
+        width: 30%;
         height: 100%;
         background-color: {{ backgroundColor }};
       }
@@ -42,7 +45,7 @@
       }
 
       .tour_list_item {
-        background-color: rgba(255, 255, 255, 0.75);
+        background-color: rgba(255, 255, 255, 0.7);
         font-family: "Arial Narrow", sans-serif;
         border-radius: 5px;
         cursor: pointer; cursor: hand;
@@ -56,22 +59,22 @@
 
 <body>
 
-<div id="guide">
+  <div id="guide">
 
-  <div class="infobox">
+    <div class="infobox">
 
-    <div class="page_info">
-      <h1>{{title}}</h1>
-      <p>{{subtitle}}</p>
+      <div class="page_info">
+        <h1>{{title}}</h1>
+        <p>{{subtitle}}</p>
+      </div>
+
+      <div id="tour_list"></div>
+
     </div>
-
-    <div id="tour_list"></div>
 
   </div>
 
-</div>
-
-<div id="map"></div>
+  <div id="map"></div>
 
 <script>
 
@@ -87,7 +90,7 @@
   var map = new L.map('map', {
     center: new L.LatLng({{lat}}, {{long}}),
     zoom: {{zoom}},
-    maxZoom: 22
+    maxZoom: 20
   });
 
 
@@ -118,7 +121,6 @@
 
         marker.filename = photo.filename;
         marker.tour_id = tour.tour_id;
-        marker.rotation = photo.rotation;
         marker.addTo(photoLayer);
       });
 
