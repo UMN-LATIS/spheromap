@@ -57,7 +57,7 @@ app.get('/:tour', function (req, res) {
     zoom: config.defaultZoomLevel,
     title: config.title,
     subtitle: config.subtitle,
-    primaryFont: config.primaryFont,
+    backgroundColor: config.backgroundColor,
     tour_id: req.params.tour
   });
 });
