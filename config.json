@@ -4,5 +4,6 @@
   "backgroundColor": "#5b0013",
   "defaultLat": 39.9455,
   "defaultLong": 116.4112,
-  "defaultZoomLevel": 11
+  "defaultZoomLevel": 11,
+  "photoPath": "http://s3.amazonaws.com/china-spheromap/"
 }

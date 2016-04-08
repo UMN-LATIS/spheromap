@@ -13,14 +13,15 @@
 
   <a-assets>
     <img id="china_texture" src="/assets/china-pattern-design.jpg">
+    <!-- We need to load this here to avoid crossorigin errors. -->
+    <img id="sky_photo" src={{src}} crossorigin="anonymous">
   </a-assets>
 
   <a-camera position="0 1.8 4">
     <a-cursor visible="true" scale="2" color="#4CC3D9" offset="2" maxdistance="100" opacity="0.5"></a-cursor>
   </a-camera>
 
-  <a-sky src={{src}} rotation="0 {{rotation}} 0"></a-sky> 
-  <!--<a-sphere material="src: url({{src}}); side:double;" radius=5000 rotation="0 {{rotation}} 0"></a-sphere> -->
+  <a-sky src="#sky_photo" rotation="0 {{rotation}} 0"></a-sky>
 
   <a-box id="portkey" position="0 -2 0" width="1" height="1" depth="1" color="gray" src="#china_texture"></a-box>
 

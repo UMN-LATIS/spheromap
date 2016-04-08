@@ -57,7 +57,7 @@ app.get('/:tour', function (req, res) {
     zoom: config.defaultZoomLevel,
     title: config.title,
     subtitle: config.subtitle,
-    backgroundColor: config.backgroundColor,
+    primaryFont: config.primaryFont,
     tour_id: req.params.tour
   });
 });
@@ -71,7 +71,7 @@ app.get('/:tour/photosphere/:image', function (req, res) {
   var photo_rotation = photo_data.rotation;
 
   res.render('photosphere', {
-    src: '/photos/' + req.params.image,
+    src: config.photoPath + req.params.image,
     tour_id: req.params.tour,
     rotation: photo_rotation,
     title: config.title
@@ -81,11 +81,11 @@ app.get('/:tour/photosphere/:image', function (req, res) {
 // plan photosphere route for showing un-rotated images outside of tours
 app.get('/photosphere/:image', function (req, res) {
   res.render('photosphere', {
-    src: '/photos/' + req.params.image,
+    src: config.photoPath + req.params.image,
     title: config.title
   });
 });
 
-app.listen(3000, function () {
-  console.log('App listening on port 3000!');
+app.listen(8081, function () {
+  console.log('App listening on port 8081!');
 });
